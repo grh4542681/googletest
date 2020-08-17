@@ -1048,9 +1048,9 @@ struct DoAllAction {
       R operator()(Args... args) const {
         auto tuple_args = std::forward_as_tuple(std::forward<Args>(args)...);
         for (auto& a : converted) {
-          a.Perform(tuple_args);
+          a.Perform(std::move(tuple_args));
         }
-        return last.Perform(tuple_args);
+        return last.Perform(std::move(tuple_args));
       }
     };
     return Op{Convert<Args...>(MakeIndexSequence<sizeof...(Actions) - 1>()),
